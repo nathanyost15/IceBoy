@@ -16,8 +16,7 @@ public class Player : MonoBehaviour
         jumpForce = 10000f;
         sprite = gameObject.GetComponent<SpriteRenderer>();
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         // State system
