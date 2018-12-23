@@ -22,7 +22,6 @@ public class FreezeRay : MonoBehaviour
         // Get handle to particle effect system
         particleSys = GameObject.Find("FreezeRayParticleSys");
         p = particleSys.GetComponent<ParticleSystem>();
-        p.Stop();
     }
     
     void Update()
@@ -48,11 +47,20 @@ public class FreezeRay : MonoBehaviour
         // Check if Freezegun is active
         if(Input.GetKey(KeyCode.F))
         {
-            p.Play();
+            Debug.Log("Hit F :D");
+            if (!p.isPlaying)
+            {
+                Debug.Log("Particle system wasn't running so let me start it :D");
+                p.Play();
+            }
         }
         else
         {
-            p.Stop();
+            if (p.isPlaying)
+            {
+                Debug.Log("Particle System should have stopped right now :D");                
+                p.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            }
         }
     }
 }
