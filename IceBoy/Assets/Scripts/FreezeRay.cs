@@ -6,8 +6,10 @@ public class FreezeRay : MonoBehaviour
 {
     private SpriteRenderer iceBoySprite, sprite;
     private Vector3 rightPosition, leftPosition;
-    private GameObject particleSys;
+    private GameObject particleSys;    
     private ParticleSystem p;
+
+    public Sprite freezeRayIdle, freezeRayFiring;
     void Start()
     {
         leftPosition = new Vector3(-0.069f, 0.004999995f, 0);
@@ -26,7 +28,25 @@ public class FreezeRay : MonoBehaviour
     
     void Update()
     {
-        if(iceBoySprite.flipX)
+        // Check if Freezegun is active
+        if (Input.GetMouseButton(0))
+        {
+            if (!p.isPlaying)
+            {     
+                sprite.sprite = freezeRayFiring;
+                p.Play();
+            }
+        }
+        else
+        {
+            if (p.isPlaying)
+            {
+                sprite.sprite = freezeRayIdle;
+                p.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            }
+        }
+
+        if (iceBoySprite.flipX)
         {
             // Move gun position
             transform.position = transform.parent.position + leftPosition;
@@ -44,23 +64,6 @@ public class FreezeRay : MonoBehaviour
             sprite.flipX = false;
         }
 
-        // Check if Freezegun is active
-        if(Input.GetKey(KeyCode.F))
-        {
-            Debug.Log("Hit F :D");
-            if (!p.isPlaying)
-            {
-                Debug.Log("Particle system wasn't running so let me start it :D");
-                p.Play();
-            }
-        }
-        else
-        {
-            if (p.isPlaying)
-            {
-                Debug.Log("Particle System should have stopped right now :D");                
-                p.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-            }
-        }
+        
     }
 }
