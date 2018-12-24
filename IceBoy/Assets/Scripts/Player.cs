@@ -79,9 +79,17 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Check if falling to see if the player has touched the ground to allow jumping again
-        if (activeState == States.Falling && collision.transform.tag == "Ground")
+        switch(collision.transform.tag)
         {
-            activeState = States.Grounded;
+            case "Ground":
+                if (activeState == States.Falling)
+                {
+                    activeState = States.Grounded;
+                }
+                break;
+            case "Platform":
+                goto case "Ground";
         }
+        
     }
 }
